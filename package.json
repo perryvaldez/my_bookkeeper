@@ -85,7 +85,9 @@
   },
   "babel": {
     "presets": [
-      "env", "stage-2", "react-app"
+      "env",
+      "stage-2",
+      "react-app"
     ]
   },
   "eslintConfig": {
