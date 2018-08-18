@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './App.css';
 
-class App extends Component {
-  render() {
+export class App extends PureComponent {
+  render = () => {
     return (
       <div id="wrapper">
         <div id="header">
