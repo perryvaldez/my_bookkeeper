@@ -35,6 +35,8 @@
     "react": "^16.4.2",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
     "resolve": "1.6.0",
     "style-loader": "0.19.0",
     "sw-precache-webpack-plugin": "0.11.4",
@@ -45,7 +47,8 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "BROWSER=none node scripts/start.js",
+    "start:dev": "BROWSER=none NODE_ENV=development node scripts/start.js",
+    "start:prod": "BROWSER=none NODE_ENV=production node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
@@ -95,6 +98,7 @@
   },
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1"
+    "babel-preset-stage-2": "^6.24.1",
+    "redux-devtools": "^3.4.1"
   }
 }
