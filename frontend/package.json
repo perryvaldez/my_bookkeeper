@@ -99,6 +99,6 @@
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-2": "^6.24.1",
-    "redux-devtools": "^3.4.1"
+    "redux-devtools-extension": "^2.13.5"
   }
 }
