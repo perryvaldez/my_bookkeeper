@@ -14,10 +14,8 @@
     ]
   },
   "User": {
-    "dataSource": "memory"
-  },
-  "AppUser": {
-    "dataSource": "memory"
+    "dataSource": "memory",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "memory",
@@ -37,5 +35,8 @@
   "Role": {
     "dataSource": "memory",
     "public": false
+  },
+  "AppUser": {
+    "dataSource": "memory"
   }
 }
