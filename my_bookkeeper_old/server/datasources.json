@@ -1,0 +1,7 @@
+{
+  "memory": {
+    "name": "memory",
+    "file": "/tmp/memory.dat",
+    "connector": "memory"
+  }
+}
