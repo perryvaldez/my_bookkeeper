@@ -19,5 +19,6 @@
     },
     "cors": false
   },
-  "passSalt": "29a8bcbf-8f01-493f-bd11-8317ace623d7"
+  "passSalt": "29a8bcbf-8f01-493f-bd11-8317ace623d7",
+  "cookieSecret": "55ea8a28-607b-4cb2-a336-21a820b2c8f5"
 }
