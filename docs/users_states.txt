@@ -1,0 +1,34 @@
+Admin
+- Manage users
+
+
+Frontend States:
+
+Authentication:
+ * Startup (Initial State)
+
+            [Startup]
+                 |
+                 | Performing: GET /appusers/me
+                 |
+                 |
+                 V           Success: GET /appusers/me
+            [CheckingAuth] ---------------------------------> [[Authenticated]] <--------+
+                 |                                                     |                 |
+                 | Failed: GET /appusers/me                            |                 |
+                 |                   Performing: POST /appusers/logout |                 |
+                 V                                                     V                 |
+     +----->[[Unauthenticated]] <--------------------------------- [LoggingOut]          |
+     |           |                   Done: POST /appusers/logout                         |
+     |           |                                                                       |
+     |           | Performing: /appusers/login                                           |
+     |           |                                                                       |
+     |           V             Success: /appusers/login                                  |
+     |      [LoggingIn]------------------------------------------------------------------+
+     |           |
+     |           | Failed: /appusers/login
+     |           |
+     +-----------+
+
+
+
