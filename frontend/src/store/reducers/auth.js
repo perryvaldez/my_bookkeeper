@@ -54,25 +54,25 @@ export const doneLogout = () => ({
 
 // Reducer
 const decisionTree = {
-  STATE_AUTH_STARTUP: {
-      ACTION_CALL_GET_CURRENT_USER: (state) => ({ ...state, name: STATE_CHECKING_AUTH }),
+  [STATE_AUTH_STARTUP]: {
+      [ACTION_CALL_GET_CURRENT_USER]: (state) => ({ ...state, name: STATE_CHECKING_AUTH }),
   },
-  STATE_CHECKING_AUTH: {
-      ACTION_OK_GET_CURRENT_USER: (state) => ({ ...state, name: STATE_AUTHENTICATED }),     
-      ACTION_FAIL_GET_CURRENT_USER: (state) => ({ ...state, name: STATE_UNAUTHENTICATED }),     
+  [STATE_CHECKING_AUTH]: {
+      [ACTION_OK_GET_CURRENT_USER]: (state) => ({ ...state, name: STATE_AUTHENTICATED }),     
+      [ACTION_FAIL_GET_CURRENT_USER]: (state) => ({ ...state, name: STATE_UNAUTHENTICATED }),     
   },
-  STATE_UNAUTHENTICATED: {
-      ACTION_CALL_LOGIN: (state) => ({ ...state, name: STATE_LOGGING_IN }),
+  [STATE_UNAUTHENTICATED]: {
+      [ACTION_CALL_LOGIN]: (state) => ({ ...state, name: STATE_LOGGING_IN }),
   },
-  STATE_LOGGING_IN: {
-      ACTION_OK_LOGIN: (state) => ({ ...state, name: STATE_AUTHENTICATED }),
-      ACTION_FAIL_LOGIN: (state) => ({ ...state, name: STATE_UNAUTHENTICATED }),
+  [STATE_LOGGING_IN]: {
+      [ACTION_OK_LOGIN]: (state) => ({ ...state, name: STATE_AUTHENTICATED }),
+      [ACTION_FAIL_LOGIN]: (state) => ({ ...state, name: STATE_UNAUTHENTICATED }),
   },
-  STATE_AUTHENTICATED: {
-      ACTION_CALL_LOGOUT: (state) => ({ ...state, name: STATE_LOGGING_OUT }),
+  [STATE_AUTHENTICATED]: {
+      [ACTION_CALL_LOGOUT]: (state) => ({ ...state, name: STATE_LOGGING_OUT }),
   },
-  STATE_LOGGING_OUT: {
-      ACTION_DONE_LOGOUT: (state) => ({ ...state, name: STATE_UNAUTHENTICATED }),
+  [STATE_LOGGING_OUT]: {
+      [ACTION_DONE_LOGOUT]: (state) => ({ ...state, name: STATE_UNAUTHENTICATED }),
   },
 }
 
