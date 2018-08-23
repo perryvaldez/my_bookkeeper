@@ -1,3 +1,5 @@
+import { getJSON, awaitJSON } from '../../lib/utils';
+
 import { 
     STATE_AUTH_STARTUP,
     STATE_CHECKING_AUTH,
@@ -21,7 +23,7 @@ export const authMiddleware = ({ getState }) => (next) => (action) => {
         case ACTION_CALL_GET_CURRENT_USER:
             if (authState.name === STATE_AUTH_STARTUP) {
                 console.log('authMiddleware: Requesting current user...');
-                authState.promiseApiCall = Promise.reject(new Error('Debug'));
+                authState.promiseApiCall = getJSON('/appusers/me');
             }
             nextAction = next(action);
             console.log('authMiddleware: Next state: ', getState().authReducer.name);
@@ -30,13 +32,13 @@ export const authMiddleware = ({ getState }) => (next) => (action) => {
         case ACTION_CHECK_GET_CURRENT_USER:
             if (authState.name === STATE_CHECKING_AUTH) {
                 console.log('authMiddleware: Examining current user...');
-                authState.promiseApiCall
-                    .then(() => {
-                        console.log('authMiddleware: Examining current user: Success.');
-                        return okGetCurrentUser();
+                awaitJSON(authState.promiseApiCall)
+                    .then((user) => {
+                        console.log('authMiddleware: Examining current user: Success.', user);
+                        return okGetCurrentUser(user);
                     })
-                    .catch(() => {
-                        console.log('authMiddleware: Examining current user: Fail.');
+                    .catch((err) => {
+                        console.log('authMiddleware: Examining current user: Fail.', err);
                         return failGetCurrentUser();
                     })
                     .then((newAction) => {

@@ -19,6 +19,7 @@ export const ACTION_DONE_LOGOUT = 'DONE_LOGOUT';
 const initialState = {
     name: STATE_AUTH_STARTUP,
     promiseApiCall: Promise.resolve(null),
+    user: null,
 };
 
 // Action Creators
@@ -30,8 +31,9 @@ export const checkGetCurrentUser = () => ({
     type: ACTION_CHECK_GET_CURRENT_USER,
 });
 
-export const okGetCurrentUser = () => ({
+export const okGetCurrentUser = (user) => ({
     type: ACTION_OK_GET_CURRENT_USER,
+    user
 });
 
 export const failGetCurrentUser = () => ({
@@ -65,7 +67,7 @@ const decisionTree = {
   },
   [STATE_CHECKING_AUTH]: {
       [ACTION_CHECK_GET_CURRENT_USER]: (state) => state,     
-      [ACTION_OK_GET_CURRENT_USER]: (state) => ({ ...state, name: STATE_AUTHENTICATED }),     
+      [ACTION_OK_GET_CURRENT_USER]: (state, action) => ({ ...state, name: STATE_AUTHENTICATED, user: action.user }),     
       [ACTION_FAIL_GET_CURRENT_USER]: (state) => ({ ...state, name: STATE_UNAUTHENTICATED }),     
   },
   [STATE_UNAUTHENTICATED]: {
@@ -85,7 +87,7 @@ const decisionTree = {
 
 export const authReducer = (state = initialState, action) => {
     if (decisionTree[state.name] && decisionTree[state.name][action.type]) {
-      return (decisionTree[state.name][action.type])(state);
+      return (decisionTree[state.name][action.type])(state, action);
     }
 
     return state;
