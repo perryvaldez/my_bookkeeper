@@ -6,6 +6,7 @@ export const STATE_LOGGING_IN = 'LOGGING_IN';
 export const STATE_LOGGING_OUT = 'LOGGING_OUT';
 
 export const ACTION_CALL_GET_CURRENT_USER = 'CALL_GET_CURRENT_USER';
+export const ACTION_CHECK_GET_CURRENT_USER = 'CHECK_GET_CURRENT_USER';
 export const ACTION_OK_GET_CURRENT_USER = 'OK_GET_CURRENT_USER';
 export const ACTION_FAIL_GET_CURRENT_USER = 'FAIL_GET_CURRENT_USER';
 export const ACTION_CALL_LOGIN = 'CALL_LOGIN';
@@ -17,11 +18,16 @@ export const ACTION_DONE_LOGOUT = 'DONE_LOGOUT';
 // States
 const initialState = {
     name: STATE_AUTH_STARTUP,
+    promiseApiCall: Promise.resolve(null),
 };
 
 // Action Creators
 export const callGetCurrentUser = () => ({
     type: ACTION_CALL_GET_CURRENT_USER,
+});
+
+export const checkGetCurrentUser = () => ({
+    type: ACTION_CHECK_GET_CURRENT_USER,
 });
 
 export const okGetCurrentUser = () => ({
@@ -58,6 +64,7 @@ const decisionTree = {
       [ACTION_CALL_GET_CURRENT_USER]: (state) => ({ ...state, name: STATE_CHECKING_AUTH }),
   },
   [STATE_CHECKING_AUTH]: {
+      [ACTION_CHECK_GET_CURRENT_USER]: (state) => state,     
       [ACTION_OK_GET_CURRENT_USER]: (state) => ({ ...state, name: STATE_AUTHENTICATED }),     
       [ACTION_FAIL_GET_CURRENT_USER]: (state) => ({ ...state, name: STATE_UNAUTHENTICATED }),     
   },
