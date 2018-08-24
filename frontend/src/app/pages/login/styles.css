@@ -1,0 +1,16 @@
+#login-form label {
+  display: inline-block;
+  width: 100px;
+}
+
+#login-form #username {
+    width: 200px;
+}
+
+#login-form #password {
+    width: 200px;
+}
+
+#login-form .button-row {
+    margin-top: 20px;
+}

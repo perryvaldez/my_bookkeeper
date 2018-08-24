@@ -1,3 +1,16 @@
 p {
   margin-bottom: 0.5em;
 }
+
+#content > section {
+  padding: 0 4px;
+}
+
+#content h1 {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+#content form .form-row {
+  margin-bottom: 4px;
+}
