@@ -18,7 +18,7 @@ AuthorizedSectionBase.propTypes = {
 export const AuthorizedSection = connect(mapStateToProps)(AuthorizedSectionBase);
 
 const UnauthorizedSectionBase = ({ children, authState }) => (
-    authState.name === 'UNAUTHENTICATED' ? children : null
+    authState.name !== 'AUTHENTICATED' ? children : null
 );
 
 UnauthorizedSectionBase.propTypes = {
