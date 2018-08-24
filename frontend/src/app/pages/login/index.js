@@ -1,11 +1,19 @@
 import React, { PureComponent } from 'react';
 import { AuthorizedSection, UnauthorizedSection } from '../../controls/auth';
+import { connect } from 'react-redux';
+import { callLogin, checkLogin, STATE_LOGGING_IN } from '../../../store/reducers/auth';
 import './styles.css';
 
 export class Login extends PureComponent {
   state = {
     username: '',
     password: '',
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.authState.name !== this.props.authState.name && nextProps.authState.name === STATE_LOGGING_IN) {
+      nextProps.checkLogin();
+    }
   };
 
   handleUsername = (e) => {
@@ -18,13 +26,14 @@ export class Login extends PureComponent {
 
   handleLogin = (e) => {
     console.log('Login button clicked.')
+    this.props.callLogin({ username: this.state.username, password: this.state.password });
   };
 
   render = () => {
     return (
         <React.Fragment>
             <AuthorizedSection>
-            <p>Your are already logged in.</p>
+            <p>Your are now logged in. You may go back to <a href="/">Home</a>.</p>
             </AuthorizedSection>
             <UnauthorizedSection>
             <section>
@@ -52,4 +61,13 @@ export class Login extends PureComponent {
   };
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  authState: state.authReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  callLogin: (credentials) => dispatch(callLogin(credentials)),
+  checkLogin: () => dispatch(checkLogin()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

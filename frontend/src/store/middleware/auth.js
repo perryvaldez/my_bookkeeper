@@ -1,12 +1,18 @@
-import { getJSON, awaitJSON } from '../../lib/utils';
+import { getJSON, postJSON, awaitJSON } from '../../lib/utils';
 
 import { 
     STATE_AUTH_STARTUP,
     STATE_CHECKING_AUTH,
+    STATE_UNAUTHENTICATED,
+    STATE_LOGGING_IN,
     ACTION_CALL_GET_CURRENT_USER,
     ACTION_CHECK_GET_CURRENT_USER,
+    ACTION_CALL_LOGIN,
+    ACTION_CHECK_LOGIN,
     okGetCurrentUser,
     failGetCurrentUser,
+    okLogin,
+    failLogin,
  } from '../reducers/auth';
 
 export const authMiddleware = ({ getState }) => (next) => (action) => {
@@ -40,6 +46,40 @@ export const authMiddleware = ({ getState }) => (next) => (action) => {
                     .catch((err) => {
                         console.log('authMiddleware: Examining current user: Fail.', err);
                         return failGetCurrentUser();
+                    })
+                    .then((newAction) => {
+                        nextAction = next(newAction);
+                        console.log('authMiddleware: Next state: ', getState().authReducer.name);
+                        return nextAction;  // Pass to next middleware
+                    })
+                    ;
+            }
+            nextAction = next(action);
+            console.log('authMiddleware: Next state: ', getState().authReducer.name);
+            return nextAction;  // Pass to next middleware
+
+        case ACTION_CALL_LOGIN:
+            if (authState.name === STATE_UNAUTHENTICATED) {
+                console.log('authMiddleware: Requesting login...');
+                authState.promiseApiCall = postJSON('/appusers/login', action.credentials);
+            }
+            nextAction = next(action);
+            console.log('authMiddleware: Next state: ', getState().authReducer.name);
+            return nextAction;  // Pass to next middleware
+
+        case ACTION_CHECK_LOGIN:
+            if (authState.name === STATE_LOGGING_IN) {
+                console.log('authMiddleware: Examining login request');
+                awaitJSON(authState.promiseApiCall)
+                    .then((user) => {
+                        console.log('authMiddleware: Examining login request: Success.', user);
+                        return getJSON('/appusers/me');
+                    })
+                    .then(awaitJSON)
+                    .then(okLogin)
+                    .catch((err) => {
+                        console.log('authMiddleware: Examining login request: Fail.', err);
+                        return failLogin();
                     })
                     .then((newAction) => {
                         nextAction = next(newAction);
