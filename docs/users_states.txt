@@ -7,28 +7,41 @@ Frontend States:
 Authentication:
  * Startup (Initial State)
 
-            [Startup]
-                 |
-                 | Performing: GET /appusers/me
-                 |
-                 |
-                 V           Success: GET /appusers/me
-            [CheckingAuth] ---------------------------------> [[Authenticated]] <--------+
-                 |                                                     |                 |
-                 | Failed: GET /appusers/me                            |                 |
-                 |                   Performing: POST /appusers/logout |                 |
-                 V                                                     V                 |
-     +----->[[Unauthenticated]] <--------------------------------- [LoggingOut]          |
-     |           |                   Done: POST /appusers/logout                         |
-     |           |                                                                       |
-     |           | Performing: /appusers/login                                           |
-     |           |                                                                       |
-     |           V             Success: /appusers/login                                  |
-     |      [LoggingIn]------------------------------------------------------------------+
-     |           |
-     |           | Failed: /appusers/login
-     |           |
-     +-----------+
+					    [Startup]
+						 |
+						 |
+						 | Performing: GET /appusers/me
+						 |
+                                                 V
+      +----------------------------------> [CheckingAuth] ------------------------------------------+
+      |                                       |     |                                               |
+      |                   Awaiting response   |     |                                               |
+      |                 of GET /appusers/me   |     | Success: GET /appusers/me                     | Fail: GET /appusers/me
+      |                                       |     |                                               |
+      +---------------------------------------+     |                                               |
+                                                    V                                               V
+                                             [[Authenticated]]                              [[Unauthenticated]] <---------------------------------------+
+                                                 A     |                                       A    |                                                   |
+                                                 |     | Performing:                           |    |                                                   |
+                                                 |     | POST /appusers/logout                 |    | Performing: POST /appusers/login                  |
+                                                 |     V                                       |    |                                                   |
+                                                 | [LoggingOut] -------------------------------+    |                                                   |
+                                                 |   A     |       Done: POST /appusers/logout      |                                                   |
+                                                 |   |     |                                        |                                                   |
+                                                 |   |     | Awaiting response of                   |                                                   |
+                                                 |   |     | POST /appusers/logout                  |                                                   |
+                                                 |   |     |                                        |                                                   |
+                                                 |   +-----+                                        |                                                   |
+                                                 |                                                  V                                                   |
+                                                 +-------------------------------------------- [LoggingIn] <-----------------------+                    |
+                                                          Success: POST /appusers/login           |   |                            |                    |
+                                                                                                  |   | Awaiting reponse of        |                    |
+                                                                                                  |   | POST /appusers/login       |                    |
+                                                                                                  |   |                            |                    |
+                                                                                                  |   +----------------------------+                    |
+                                                                                                  |                                                     |
+                                                                                                  |         Fail: POST /appusers/login                  |
+                                                                                                  +-----------------------------------------------------+
 
 
 
