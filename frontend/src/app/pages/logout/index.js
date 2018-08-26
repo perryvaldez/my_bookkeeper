@@ -1,8 +1,18 @@
 import React, { PureComponent } from 'react';
 import { AuthorizedSection, UnauthorizedSection } from '../../controls/auth';
+import { connect } from 'react-redux';
+import { callLogout, doneLogout, STATE_LOGGING_OUT } from '../../../store/reducers/auth';
 
 export class Logout extends PureComponent {
-  handleLogout = () => {};
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.authState.name !== this.props.authState.name && nextProps.authState.name === STATE_LOGGING_OUT) {
+      nextProps.doneLogout();
+    }
+  };
+
+  handleLogout = () => {
+    this.props.callLogout();
+  };
 
   render = () => (
     <React.Fragment>
@@ -18,10 +28,19 @@ export class Logout extends PureComponent {
         </section>
       </AuthorizedSection>    
       <UnauthorizedSection>
-        <p>You have been logged out.</p>
+        <p>You have been logged out. <a href="/">Home</a></p>
       </UnauthorizedSection>
     </React.Fragment>
   );
 }
 
-export default Logout;
+const mapStateToProps = (state) => ({
+  authState: state.authReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  callLogout: () => dispatch(callLogout()),
+  doneLogout: () => dispatch(doneLogout()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);

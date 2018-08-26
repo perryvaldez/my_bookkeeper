@@ -5,14 +5,19 @@ import {
     STATE_CHECKING_AUTH,
     STATE_UNAUTHENTICATED,
     STATE_LOGGING_IN,
+    STATE_AUTHENTICATED,
+    STATE_LOGGING_OUT,
     ACTION_CALL_GET_CURRENT_USER,
     ACTION_CHECK_GET_CURRENT_USER,
     ACTION_CALL_LOGIN,
     ACTION_CHECK_LOGIN,
+    ACTION_CALL_LOGOUT,
     okGetCurrentUser,
     failGetCurrentUser,
     okLogin,
     failLogin,
+    ACTION_DONE_LOGOUT,
+    doneLogout,
  } from '../reducers/auth';
 
 export const authMiddleware = ({ getState }) => (next) => (action) => {
@@ -80,6 +85,38 @@ export const authMiddleware = ({ getState }) => (next) => (action) => {
                     .catch((err) => {
                         console.log('authMiddleware: Examining login request: Fail.', err);
                         return failLogin();
+                    })
+                    .then((newAction) => {
+                        nextAction = next(newAction);
+                        console.log('authMiddleware: Next state: ', getState().authReducer.name);
+                        return nextAction;  // Pass to next middleware
+                    })
+                    ;
+            }
+            nextAction = next(action);
+            console.log('authMiddleware: Next state: ', getState().authReducer.name);
+            return nextAction;  // Pass to next middleware
+
+        case ACTION_CALL_LOGOUT:
+            if (authState.name === STATE_AUTHENTICATED) {
+                console.log('authMiddleware: Requesting logout...');
+                authState.promiseApiCall = postJSON('/appusers/logout');
+            }
+            nextAction = next(action);
+            console.log('authMiddleware: Next state: ', getState().authReducer.name);
+            return nextAction;  // Pass to next middleware
+
+        case ACTION_DONE_LOGOUT:
+            if (authState.name === STATE_LOGGING_OUT) {
+                console.log('authMiddleware: Examining logout request');
+                awaitJSON(authState.promiseApiCall)
+                    .then(() => {
+                        console.log('authMiddleware: Examining logout request: Success.');
+                        return doneLogout();
+                    })
+                    .catch((err) => {
+                        console.log('authMiddleware: Examining login request: Fail.', err);
+                        return doneLogout(); 
                     })
                     .then((newAction) => {
                         nextAction = next(newAction);
