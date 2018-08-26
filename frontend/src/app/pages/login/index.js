@@ -34,6 +34,7 @@ export class Login extends PureComponent {
         <React.Fragment>
             <AuthorizedSection>
             <p>Your are now logged in. You may go back to <a href="/">Home</a>.</p>
+            <p><a href="/logout">Log out</a></p>
             </AuthorizedSection>
             <UnauthorizedSection>
             <section>

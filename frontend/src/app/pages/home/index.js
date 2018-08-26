@@ -6,7 +6,7 @@ export const Home = () => (
       <AuthorizedSection>
         <section>
           <h1>Welcome to the Application!</h1>
-          <p>You are now able to access this page.</p>
+          <p>You are now able to access this page. <a href="/logout">Log out</a></p>
         </section>
       </AuthorizedSection>
       <UnauthorizedSection>
