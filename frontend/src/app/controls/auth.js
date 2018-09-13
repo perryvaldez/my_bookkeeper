@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { STATE_AUTHENTICATED, STATE_LOGGING_OUT } from '../../store/reducers/auth';
 import { connect } from 'react-redux';
