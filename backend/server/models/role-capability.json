@@ -1,0 +1,37 @@
+{
+  "name": "RoleCapability",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "required": true
+    },
+    "roleId": {
+      "type": "number",
+      "required": true
+    },
+    "capabilityId": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "role": {
+      "type": "belongsTo",
+      "model": "AppRole",
+      "foreignKey": "roleId"
+    },
+    "capability": {
+      "type": "belongsTo",
+      "model": "Capability",
+      "foreignKey": "capabilityId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

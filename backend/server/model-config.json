@@ -38,5 +38,17 @@
   },
   "AppUser": {
     "dataSource": "memory"
+  },
+  "Capability": {
+    "dataSource": "memory",
+    "public": true
+  },
+  "RoleCapability": {
+    "dataSource": "memory",
+    "public": false
+  },
+  "AppRole": {
+    "dataSource": "memory",
+    "public": false
   }
 }
