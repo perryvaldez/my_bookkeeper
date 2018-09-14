@@ -11,8 +11,12 @@
       "type": "number",
       "required": true
     },
-    "name": {
+    "resource": {
       "type": "string",
+      "required": true
+    },
+    "permission": {
+      "type": "number",
       "required": true
     }
   },

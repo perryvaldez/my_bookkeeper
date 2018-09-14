@@ -16,18 +16,11 @@ const checkForAdmin = async (models, salt) => {
         role = await models.AppRole.findOne({ where: { name: 'admin' }});
         if (!role) {
           // Create the capabilities for the admin
-          const capCreateUsers = await models.Capability.create({ name: 'createUsers' });
-          const capRetrieveUsers = await models.Capability.create({ name: 'retrieveUsers' });
-          const capUpdateUsers = await models.Capability.create({ name: 'updateUsers' });
-          const capDeleteUsers = await models.Capability.create({ name: 'deleteUsers' });
+          const capUsers = await models.Capability.create({ resource: 'user', permission: 1023 });
 
           role = await models.AppRole.create({ name: 'admin' });
 
-          await models.RoleCapability.create({ roleId: role.id, capabilityId: capCreateUsers.id });
-          await models.RoleCapability.create({ roleId: role.id, capabilityId: capRetrieveUsers.id });
-          await models.RoleCapability.create({ roleId: role.id, capabilityId: capUpdateUsers.id });
-          await models.RoleCapability.create({ roleId: role.id, capabilityId: capDeleteUsers.id });
-
+          await models.RoleCapability.create({ roleId: role.id, capabilityId: capUsers.id });
         }
 
         adminUser = await models.AppUser.create({ username: 'admin', password: 'password', email: "admin@example.com", active: true });
