@@ -1,0 +1,36 @@
+Capability values:
+
+ 98 7654 3210                                        Hex AND Mask     Decimal AND Mask
+  x- ---- ----  Create own             10 0000 0000       200                  512
+  -x ---- ----  Retrieve own           01 0000 0000       100                  256
+  -- x--- ----  Update own             00 1000 0000       080                  128   
+  -- -x-- ----  Delete own             00 0100 0000       040                   64
+  -- --x- ----  Execute own            00 0010 0000       020                   32 
+  -- ---x ----  Create other           00 0001 0000       010                   16
+  -- ---- x---  Retrieve other         00 0000 1000       008                    8
+  -- ---- -x--  Update other           00 0000 0100       004                    4
+  -- ---- --x-  Delete other           00 0000 0010       002                    2
+  -- ---- ---x  Execute other          00 0000 0001       001                    1
+
+
+  Sample:
+  11 1000 0000      380    (896 decimal)
+
+  380 AND 200 =     200    Create own
+  380 AND 100 =     100    Retrieve own
+  380 AND 080 =      80    Update own
+  380 AND 040 =       0
+
+
+  01 0000 1000      108    (264 decimal)
+
+  108  AND 200 =      0
+  108  AND 100 =    100    Retrieve own
+  108  AND 080 =      0
+  108  AND 040 =      0
+  108  AND 020 =      0
+  108  AND 010 =      0
+  108  AND 008 =      8    Retrieve other
+
+  Max:
+  11 1111 1111 =    3FF    (1023 decimal)
